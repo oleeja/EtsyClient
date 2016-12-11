@@ -1,5 +1,8 @@
 package com.kitsyambocka.etsyclient.activities;
 
+import android.graphics.Typeface;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
@@ -118,6 +121,7 @@ public class DetailActivity extends BaseActivity {
                 if (bSave.getText().toString().equals(getResources().getString(R.string.save))) {
                     App.getInstance().getDataManager().addGoods(results);
                     bSave.setText(R.string.delete);
+                    showSnack();
 
                 } else {
                     App.getInstance().getDataManager().deleteGoodsById(results.getListingId());
@@ -130,7 +134,15 @@ public class DetailActivity extends BaseActivity {
         });
     }
 
-
+    private void showSnack() {
+        Snackbar snack = Snackbar.make(findViewById(R.id.activity_detail), R.string.saved_to_favourites, Snackbar.LENGTH_LONG);
+        View v = snack.getView();
+        v.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
+        tv.setTextSize(18);
+        tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
+        snack.show();
+    }
 
     @Override
     public int getLayout() {

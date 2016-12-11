@@ -11,4 +11,6 @@
     <string name="choose_category">Please, choose category&#8230;</string>
     <string name="delete">Delete</string>
     <string name="submit">Submit</string>
+    <string name="nothing_to_show_favourites">You nothing added to favourites</string>
+    <string name="saved_to_favourites">Saved to favourites</string>
 </resources>

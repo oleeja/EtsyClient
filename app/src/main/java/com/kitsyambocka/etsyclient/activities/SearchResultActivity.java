@@ -119,7 +119,7 @@ public class SearchResultActivity extends BaseActivity {
                             mScrollFlag = true;
                         }
                         hideProgressDialog();
-                        
+
                     }
                 });
     }
