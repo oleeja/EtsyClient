@@ -4,6 +4,7 @@ import android.graphics.Typeface;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.text.Html;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -44,11 +45,19 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     public void setViews() {
+
+        if(getSupportActionBar()!=null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+        
         showProgressDialog();
         long id = getIntent().getLongExtra(Constants.LISTING_ID, 0);
+
         App.getInstance().getDataManager().open();
         ResultGoods goods = App.getInstance().getDataManager().getGoodsById(id);
         App.getInstance().getDataManager().close();
+
         if (goods != null) {
             bSave.setText(R.string.delete);
             setUpScreen(goods);
@@ -147,5 +156,11 @@ public class DetailActivity extends BaseActivity {
     @Override
     public int getLayout() {
         return R.layout.activity_detail;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        onBackPressed();
+        return super.onOptionsItemSelected(menuItem);
     }
 }
