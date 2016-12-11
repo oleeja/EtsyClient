@@ -21,6 +21,11 @@ public interface ApiService {
     Observable<Goods> getGoodsById(@Path("id") long id, @Query("api_key") String key, @Query("includes") String includes);
 
     @GET("listings/active")
-    Observable<Goods> getGoodsByTag(@Query("api_key") String key, @Query("category") String category, @Query("keywords") String keywords, @Query("includes") String includes);
+    Observable<Goods> getGoodsByTag(@Query("api_key") String key,
+                                    @Query("category") String category,
+                                    @Query("keywords") String keywords,
+                                    @Query("includes") String includes,
+                                    @Query("limit") int limit,
+                                    @Query("offset") int offset);
 
 }

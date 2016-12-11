@@ -118,6 +118,7 @@ public class DetailActivity extends BaseActivity {
                 if (bSave.getText().toString().equals(getResources().getString(R.string.save))) {
                     App.getInstance().getDataManager().addGoods(results);
                     bSave.setText(R.string.delete);
+
                 } else {
                     App.getInstance().getDataManager().deleteGoodsById(results.getListingId());
                     bSave.setText(R.string.save);
@@ -128,6 +129,8 @@ public class DetailActivity extends BaseActivity {
             }
         });
     }
+
+
 
     @Override
     public int getLayout() {

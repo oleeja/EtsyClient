@@ -68,8 +68,8 @@ public class ApiManager {
         return retrofitService.getCategories(APIKEY);
     }
 
-    public Observable<Goods> getGoodsByTag(String category, String keywords) {
-        return retrofitService.getGoodsByTag(APIKEY, category, keywords, INCLUDES);
+    public Observable<Goods> getGoodsByTag(String category, String keywords, int limit, int offset) {
+        return retrofitService.getGoodsByTag(APIKEY, category, keywords, INCLUDES, limit, offset);
     }
 
 

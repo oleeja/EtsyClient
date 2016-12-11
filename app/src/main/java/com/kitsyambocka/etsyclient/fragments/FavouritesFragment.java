@@ -22,6 +22,7 @@ public class FavouritesFragment extends BaseFragment {
     @BindView(R.id.recycler_favourites)
     RecyclerView recyclerView;
 
+    private GoodsAdapter adapter;
 
     public static FavouritesFragment createNewInstance() {
         FavouritesFragment favouritesFragment = new FavouritesFragment();
@@ -43,10 +44,17 @@ public class FavouritesFragment extends BaseFragment {
         if(resultGoods!=null){
             goods.setResults(resultGoods);
 
-            GoodsAdapter adapter = new GoodsAdapter(goods, getActivity());
+            adapter = new GoodsAdapter(goods, getActivity());
             GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setAdapter(adapter);
         }
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setUpViews();
     }
 }
