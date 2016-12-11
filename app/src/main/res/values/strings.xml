@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Etsy client</string>
+    <string name="title_search">Search</string>
+    <string name="title_favourites">Favourites</string>
+    <string name="input_text">Please, input text for search</string>
+    <string name="nothing_to_show">Nothing find by this request. Try to input another request</string>
+    <string name="save">Save</string>
+</resources>
