@@ -28,7 +28,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/main_title"/>
+                android:id="@+id/main_title"
+                android:layout_marginTop="@dimen/half_activity_margin"
+                android:layout_marginBottom="@dimen/half_activity_margin"
+                android:textStyle="bold"
+                android:textSize="@dimen/title_text_size"/>
 
             <View
                 android:layout_width="match_parent"
@@ -43,12 +47,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/activity_horizontal_margin"
+                android:paddingTop="@dimen/half_activity_margin"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/price"
+                    android:textStyle="bold"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:layout_weight="1"/>

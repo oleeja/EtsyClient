@@ -15,12 +15,12 @@ import rx.Observable;
 public interface ApiService {
 
     @GET("taxonomy/categories")
-    Observable <Categories> getCategories(@Query("api_key") String key);
+    Observable<Categories> getCategories(@Query("api_key") String key);
 
     @GET("listings/{id}")
-    Observable <Goods> getGoodsById(@Path("id") long id, @Query("api_key") String key, @Query("includes") String includes);
+    Observable<Goods> getGoodsById(@Path("id") long id, @Query("api_key") String key, @Query("includes") String includes);
 
     @GET("listings/active")
-    Observable <Goods> getGoodsByTag(@Query("api_key") String key, @Query("category") String category, @Query("keywords") String keywords, @Query("includes") String includes);
+    Observable<Goods> getGoodsByTag(@Query("api_key") String key, @Query("category") String category, @Query("keywords") String keywords, @Query("includes") String includes);
 
 }

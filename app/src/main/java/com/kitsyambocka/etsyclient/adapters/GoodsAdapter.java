@@ -3,7 +3,7 @@ package com.kitsyambocka.etsyclient.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +16,7 @@ import com.kitsyambocka.etsyclient.activities.DetailActivity;
 import com.kitsyambocka.etsyclient.models.goods.Goods;
 import com.kitsyambocka.etsyclient.models.goods.ResultGoods;
 import com.kitsyambocka.etsyclient.utils.Constants;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -23,7 +24,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.squareup.picasso.Callback;
 
 /**
  * Created by Developer on 10.12.2016.
@@ -48,7 +48,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        holder.textView.setText(mGoods.get(position).getTitle());
+        holder.textView.setText(Html.fromHtml(mGoods.get(position).getTitle()).toString());
 
                 Picasso.with(mContext)
                         .load(mGoods.get(position).getMainImage().getUrl_170x135())
@@ -73,7 +73,7 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
 
                                             @Override
                                             public void onError() {
-                                                Toast.makeText(mContext, "Error: Internet connection", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(mContext, R.string.error_download, Toast.LENGTH_SHORT).show();
                                             }
                                         });
                             }
@@ -83,7 +83,6 @@ public class GoodsAdapter extends RecyclerView.Adapter<GoodsAdapter.ViewHolder> 
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, DetailActivity.class);
                 intent.putExtra(Constants.LISTING_ID, mGoods.get(position).getListingId());
-                Log.d("ListingID", mGoods.get(position).getListingId()+"");
                 mContext.startActivity(intent);
             }
         });

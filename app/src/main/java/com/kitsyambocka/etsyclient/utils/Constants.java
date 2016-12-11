@@ -8,5 +8,4 @@ public class Constants {
     public static final String TAG = "TAG";
     public static final String CATEGORY = "CATEGORY";
     public static final String LISTING_ID = "LISTING_ID";
-
 }

@@ -3,4 +3,7 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="half_activity_margin">8dp</dimen>
+    <dimen name="title_text_size">20sp</dimen>
+    <dimen name="riple_radius">6dp</dimen>
+    <dimen name="quarter_activity_padding">4dp</dimen>
 </resources>

@@ -35,6 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@drawable/main_button"
-            android:text="Submit" />
+            android:text="@string/submit" />
     </LinearLayout>
 </LinearLayout>

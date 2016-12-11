@@ -5,4 +5,10 @@
     <string name="input_text">Please, input text for search</string>
     <string name="nothing_to_show">Nothing find by this request. Try to input another request</string>
     <string name="save">Save</string>
+    <string name="error_download">Error downloading</string>
+    <string name="please_wait">Please, wait&#8230;</string>
+    <string name="downloading">Downloading&#8230;</string>
+    <string name="choose_category">Please, choose category&#8230;</string>
+    <string name="delete">Delete</string>
+    <string name="submit">Submit</string>
 </resources>

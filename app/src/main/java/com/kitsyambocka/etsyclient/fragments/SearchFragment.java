@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,12 +11,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kitsyambocka.etsyclient.App;
-import com.kitsyambocka.etsyclient.utils.Constants;
 import com.kitsyambocka.etsyclient.R;
 import com.kitsyambocka.etsyclient.activities.SearchResultActivity;
 import com.kitsyambocka.etsyclient.models.categories.Categories;
+import com.kitsyambocka.etsyclient.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,8 +46,7 @@ public class SearchFragment extends BaseFragment {
     private String category;
 
     public static SearchFragment createNewInstance() {
-        SearchFragment searchFragment = new SearchFragment();
-        return searchFragment;
+        return new SearchFragment();
     }
 
     @Override
@@ -61,7 +59,7 @@ public class SearchFragment extends BaseFragment {
         bSubmit.setEnabled(false);
 
         final List<String> categoriesList = new ArrayList<>();
-        categoriesList.add("Downloading...");
+        categoriesList.add(getString(R.string.downloading));
         final ArrayAdapter<String> adapterCategory = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, categoriesList);
         adapterCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapterCategory);
@@ -78,15 +76,15 @@ public class SearchFragment extends BaseFragment {
 
                     @Override
                     public final void onError(Throwable e) {
-                        Log.d("MyResponse", e.getMessage());
+                        Toast.makeText(getActivity(), R.string.error_download, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public final void onNext(Categories response) {
 
                         categoriesList.clear();
-                        categoriesList.add("Please, choose category...");
-                        for(int i = 0; i<response.getResults().size(); i++){
+                        categoriesList.add(getString(R.string.choose_category));
+                        for (int i = 0; i < response.getResults().size(); i++) {
                             categoriesList.add(response.getResults().get(i).getShortName());
                         }
                         adapterCategory.notifyDataSetChanged();
@@ -95,13 +93,12 @@ public class SearchFragment extends BaseFragment {
                 });
 
 
-
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                bSubmit.setEnabled(i!=0);
+                bSubmit.setEnabled(i != 0);
 
-                if(i!=0){
+                if (i != 0) {
                     category = categoriesList.get(i);
                 }
             }
@@ -115,22 +112,23 @@ public class SearchFragment extends BaseFragment {
     }
 
 
-    @OnClick(R.id.buttonSubmit) void submit() {
-        if(editText.getText().toString().equals("")){
+    @OnClick(R.id.buttonSubmit)
+    void submit() {
+        if (editText.getText().toString().equals("")) {
             showSnack();
-        }else {
+        } else {
             Intent intent = new Intent(getContext(), SearchResultActivity.class);
             intent.putExtra(Constants.TAG, editText.getText().toString());
             intent.putExtra(Constants.CATEGORY, category);
-            startActivity(intent); 
+            startActivity(intent);
         }
-        
+
     }
 
     private void showSnack() {
         Snackbar snack = Snackbar.make(getView(), R.string.input_text, Snackbar.LENGTH_LONG);
         View v = snack.getView();
-        v.setBackgroundColor(ContextCompat.getColor(getActivity(),R.color.colorPrimary));
+        v.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
         TextView tv = (TextView) v.findViewById(android.support.design.R.id.snackbar_text);
         tv.setTextSize(18);
         tv.setTypeface(tv.getTypeface(), Typeface.BOLD);

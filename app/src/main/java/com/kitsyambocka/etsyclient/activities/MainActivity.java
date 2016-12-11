@@ -2,7 +2,6 @@ package com.kitsyambocka.etsyclient.activities;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
 
 import com.kitsyambocka.etsyclient.R;
 import com.kitsyambocka.etsyclient.adapters.ViewPagerAdapter;
@@ -22,7 +21,9 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void setViews() {
-        getSupportActionBar().setElevation(0);
+        if(getSupportActionBar()!=null){
+            getSupportActionBar().setElevation(0);
+        }
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -32,4 +33,11 @@ public class MainActivity extends BaseActivity {
     public int getLayout() {
         return R.layout.activity_main;
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        setViews();
+    }
+
 }

@@ -1,8 +1,6 @@
 package com.kitsyambocka.etsyclient.activities;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
+import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -11,7 +9,6 @@ import android.widget.Toast;
 
 import com.kitsyambocka.etsyclient.App;
 import com.kitsyambocka.etsyclient.R;
-import com.kitsyambocka.etsyclient.models.categories.Result;
 import com.kitsyambocka.etsyclient.models.goods.Goods;
 import com.kitsyambocka.etsyclient.models.goods.ResultGoods;
 import com.kitsyambocka.etsyclient.utils.Constants;
@@ -44,34 +41,44 @@ public class DetailActivity extends BaseActivity {
 
     @Override
     public void setViews() {
-        Log.d("ListingIDd", getIntent().getLongExtra(Constants.LISTING_ID, 0)+"");
-        App.getApiManager().getGoodsById(getIntent().getLongExtra(Constants.LISTING_ID, 0))
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Goods>() {
-                    @Override
-                    public final void onCompleted() {
+        showProgressDialog();
+        long id = getIntent().getLongExtra(Constants.LISTING_ID, 0);
+        App.getInstance().getDataManager().open();
+        ResultGoods goods = App.getInstance().getDataManager().getGoodsById(id);
+        App.getInstance().getDataManager().close();
+        if (goods != null) {
+            bSave.setText(R.string.delete);
+            setUpScreen(goods);
+        } else {
+            App.getApiManager().getGoodsById(id)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<Goods>() {
+                        @Override
+                        public final void onCompleted() {
 
-                    }
+                        }
 
-                    @Override
-                    public final void onError(Throwable e) {
-                        Log.d("DetailResponse", e.getMessage());
-                    }
+                        @Override
+                        public final void onError(Throwable e) {
+                            hideProgressDialog();
+                            Toast.makeText(DetailActivity.this, R.string.error_download, Toast.LENGTH_SHORT).show();
+                        }
 
-                    @Override
-                    public final void onNext(Goods response) {
-                        Log.d("DetailResponse", response.getResults().get(0).getTitle());
-                        setUpScreen(response.getResults().get(0));
+                        @Override
+                        public final void onNext(Goods response) {
+                            bSave.setText(R.string.save);
+                            setUpScreen(response.getResults().get(0));
 
-                    }
-                });
+                        }
+                    });
+        }
     }
 
     private void setUpScreen(final ResultGoods results) {
-        tvTitle.setText(results.getTitle());
-        tvDescription.setText(results.getDescription());
-        tvPrice.setText(results.getPrice()+" "+results.getCurrencyCode());
+        tvTitle.setText(Html.fromHtml(results.getTitle()).toString());  //deprecated in Android N
+        tvDescription.setText(Html.fromHtml(results.getDescription()).toString());
+        tvPrice.setText(results.getPrice() + " " + results.getCurrencyCode());
 
         Picasso.with(this)
                 .load(results.getMainImage().getUrl_570xN())
@@ -96,11 +103,30 @@ public class DetailActivity extends BaseActivity {
 
                                     @Override
                                     public void onError() {
-                                        Toast.makeText(DetailActivity.this, "Error: Internet connection", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(DetailActivity.this, R.string.error_download, Toast.LENGTH_SHORT).show();
                                     }
                                 });
                     }
                 });
+
+        hideProgressDialog();
+
+        bSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                App.getInstance().getDataManager().open();
+                if (bSave.getText().toString().equals(getResources().getString(R.string.save))) {
+                    App.getInstance().getDataManager().addGoods(results);
+                    bSave.setText(R.string.delete);
+                } else {
+                    App.getInstance().getDataManager().deleteGoodsById(results.getListingId());
+                    bSave.setText(R.string.save);
+                    onBackPressed();
+                }
+
+                App.getInstance().getDataManager().close();
+            }
+        });
     }
 
     @Override
